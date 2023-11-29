@@ -1,10 +1,12 @@
 CREATE DATABASE strongapp;
 
+DROP TABLE IF EXISTS users; 
 CREATE TABLE users(
     id serial primary key,
-    username varchar(256),
-    email varchar(256),
-    password varchar(256)
+    first_name varchar(256) NOT NULL,
+    last_name varchar(256) NOT NULL,
+    username varchar(256) NOT NULL,
+    email varchar(256) NOT NULL,
+    password varchar(256) NOT NULL,
+    phone varchar(20)
 );
-
-INSERT INTO users values ('name', 'email', 'password')

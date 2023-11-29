@@ -6,7 +6,14 @@ from app.models import Users
 @app.route("/user", methods=['POST'])
 def add_user():
     data = request.json
-    new_user = Users(username = data['username'], email = data['email'], password = data['password'])
+    new_user = Users(
+    #   sql_column_name = data['ObjectState Key Name']
+        first_name = data['firstname'],
+        last_name = data['lastname'],
+        phone = data['phone'],
+        username = data['username'], 
+        email = data['email'], 
+        password = data['password'])
     db.session.add(new_user)
     db.session.commit()
     return jsonify({"message": "User Added"}), 201
