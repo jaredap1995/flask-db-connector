@@ -7,7 +7,6 @@ from app.models import Users
 def add_user():
     data = request.json
     new_user = Users(
-    #   sql_column_name = data['ObjectState Key Name']
         first_name = data['firstname'],
         last_name = data['lastname'],
         phone = data['phone'],
@@ -25,6 +24,7 @@ def get_user(value):
         user = Users.query.filter_by(email = value).first()
     if user:
         return jsonify({
+            "id": user.id, 
             "username": user.username, 
             "email": user.email,
             "firstname": user.first_name,
@@ -34,14 +34,16 @@ def get_user(value):
             })
     return jsonify({"message": "User not found"}), 404
 
-@app.route("/user/<int:user_id>", methods = ['PUT'])
-def update_user(user_id):
-    data = request.json()
-    user = Users.query.get(user_id)
+@app.route("/user/<user>", methods = ['PUT', 'GET'])
+def update_user(user):
+    data = request.json
+    user = Users.query.get(user)
+    print(user)
     if user:
+        user.id = user.id
         user.username = data.get('username', user.username)
-        user.first_name = data.get('firstname', user.firstname)
-        user.last_name = data.get('firstname', user.lastname)
+        user.first_name = data.get('firstname', user.first_name)
+        user.last_name = data.get('lastname', user.last_name)
         user.phone = data.get('phone', user.phone)
         user.email = data.get('email', user.email)
         db.session.commit()
